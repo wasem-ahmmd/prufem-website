@@ -150,6 +150,22 @@ export default function AdminProvider({ children }: { children: React.ReactNode 
     // Update CSS custom properties for dynamic color
     document.documentElement.style.setProperty('--admin-primary-color', bannerData.color)
     document.documentElement.style.setProperty('--admin-primary-rgb', hexToRgb(bannerData.color))
+
+    // Persist globally via API so all users receive the update
+    try {
+      void fetch('/api/banner', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          image: bannerData.image,
+          color: bannerData.color,
+          title: bannerData.title,
+          isActive: true,
+        }),
+      })
+    } catch (err) {
+      console.error('Failed to persist banner globally:', err)
+    }
   }
 
   const setActiveBanner = (bannerId: string) => {

@@ -13,15 +13,27 @@ export interface AdminBannerData {
 // Get active banner data from localStorage (admin changes)
 export function getActiveBanner(): AdminBannerData | null {
   if (typeof window === 'undefined') return null
-  
   try {
     const savedBanners = localStorage.getItem('admin_banners')
     if (!savedBanners) return null
-    
     const banners: AdminBannerData[] = JSON.parse(savedBanners)
     return banners.find(banner => banner.isActive) || null
   } catch (error) {
     console.error('Error loading admin banner data:', error)
+    return null
+  }
+}
+
+// Fetch active banner from server API for global state
+export async function fetchActiveBanner(): Promise<AdminBannerData | null> {
+  if (typeof window === 'undefined') return null
+  try {
+    const res = await fetch('/api/banner', { cache: 'no-store' })
+    if (!res.ok) return null
+    const data = await res.json()
+    return data as AdminBannerData
+  } catch (err) {
+    console.error('Failed to fetch active banner from API:', err)
     return null
   }
 }
@@ -152,10 +164,15 @@ function updateTailwindClasses(color: string) {
 export function initializeAdminBannerSync() {
   if (typeof window === 'undefined') return
   
-  const activeBanner = getActiveBanner()
-  if (activeBanner) {
-    applyDynamicColors(activeBanner.color)
-  }
+  // Try server API first for global state
+  fetchActiveBanner().then((banner) => {
+    if (banner) {
+      applyDynamicColors(banner.color)
+    } else {
+      const localBanner = getActiveBanner()
+      if (localBanner) applyDynamicColors(localBanner.color)
+    }
+  })
   
   // Listen for storage changes (when admin updates banner in another tab)
   window.addEventListener('storage', (e) => {
@@ -178,17 +195,16 @@ export function useAdminBanner() {
   const [isLoading, setIsLoading] = useState(true)
   
   useEffect(() => {
-    const loadBanner = () => {
-      const banner = getActiveBanner()
+    const loadBanner = async () => {
+      // Prefer server API (global), fallback to localStorage
+      const serverBanner = await fetchActiveBanner()
+      const banner = serverBanner || getActiveBanner()
       setActiveBanner(banner)
       setIsLoading(false)
-      
-      if (banner) {
-        applyDynamicColors(banner.color)
-      }
+      if (banner) applyDynamicColors(banner.color)
     }
     
-    loadBanner()
+    void loadBanner()
     
     // Listen for changes
     const handleStorageChange = (e: StorageEvent) => {
