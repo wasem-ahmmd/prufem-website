@@ -1,0 +1,44 @@
+/* Admin-specific styles */
+.admin-gradient {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.admin-card {
+  @apply bg-white rounded-lg shadow-md border border-gray-200 p-6;
+}
+
+.admin-input {
+  @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors;
+}
+
+.admin-button {
+  @apply px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors font-medium;
+}
+
+.admin-button-secondary {
+  @apply px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors font-medium;
+}
+
+.admin-sidebar {
+  @apply bg-white shadow-lg border-r border-gray-200;
+}
+
+.admin-nav-item {
+  @apply flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 hover:text-blue-600 transition-colors;
+}
+
+.admin-nav-item.active {
+  @apply bg-blue-50 text-blue-600 border-r-2 border-blue-600;
+}
+
+.color-preview {
+  @apply w-8 h-8 rounded border-2 border-gray-300 cursor-pointer;
+}
+
+.file-upload-area {
+  @apply border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-400 transition-colors;
+}
+
+.file-upload-area.dragover {
+  @apply border-blue-500 bg-blue-50;
+}

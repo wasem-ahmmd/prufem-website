@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: var(--font-inter), system-ui, sans-serif;
+  }
+  
+  .font-serif {
+    font-family: var(--font-playfair), serif;
+  }
+}
+
+@layer utilities {
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Premium gradient text utilities */
+  .text-gradient-emerald {
+    background: linear-gradient(90deg, #50C878, #7FE5A3, #50C878);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-silver {
+    background: linear-gradient(90deg, #E0E0E0, #FFFFFF, #C0C0C0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-rose-gold {
+    background: linear-gradient(90deg, #B76E79, #FFD2DC, #B76E79);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Hover effects for text gradients */
+  .hover-text-emerald:hover {
+    background: linear-gradient(90deg, #50C878, #7FE5A3, #50C878);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    transition: all 0.3s ease;
+  }
+
+  .hover-text-silver:hover {
+    background: linear-gradient(90deg, #E0E0E0, #FFFFFF, #C0C0C0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    transition: all 0.3s ease;
+  }
+
+  /* Product card hover glow effect */
+  .product-card-hover:hover {
+    box-shadow: 0 0 15px rgba(80,200,120,0.4);
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+  }
+
+  /* Button hover effects */
+  .btn-emerald-hover:hover {
+    background: #FFFFFF;
+    border: 2px solid #50C878;
+    color: #000000;
+    transition: all 0.3s ease;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #50C878;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3FA65C;
+}
+
+/* Focus styles for accessibility */
+.focus\:ring-brand-emerald:focus {
+  --tw-ring-color: #50C878;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}

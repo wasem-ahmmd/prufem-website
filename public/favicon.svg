@@ -1,0 +1,6 @@
+<svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+  <rect width="48" height="48" fill="#000000"/>
+  <circle cx="24" cy="24" r="18" stroke="#C9A227" stroke-width="2" fill="none"/>
+  <text x="24" y="20" text-anchor="middle" fill="#C9A227" font-family="serif" font-size="8" font-weight="bold">WJ</text>
+  <text x="24" y="30" text-anchor="middle" fill="#C9A227" font-family="serif" font-size="6">&amp;Co</text>
+</svg>

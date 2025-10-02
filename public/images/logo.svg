@@ -1,0 +1,19 @@
+<svg width="200" height="80" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#d4af37;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#ffd700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d4af37;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Logo circle -->
+  <circle cx="40" cy="40" r="30" stroke="url(#logoGradient)" stroke-width="3" fill="none"/>
+  
+  <!-- Logo text inside circle -->
+  <text x="40" y="48" text-anchor="middle" font-family="serif" font-size="16" font-weight="bold" fill="url(#logoGradient)">P</text>
+  
+  <!-- Brand name -->
+  <text x="85" y="35" font-family="serif" font-size="28" font-weight="bold" fill="url(#logoGradient)">Prufem</text>
+  <text x="85" y="55" font-family="sans-serif" font-size="12" fill="#cccccc">Premium Perfumes</text>
+</svg>
