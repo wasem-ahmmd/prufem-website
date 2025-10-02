@@ -10,7 +10,8 @@ import {
   EyeIcon,
   CheckCircleIcon,
   ArrowLeftIcon,
-  ExclamationTriangleIcon
+  ExclamationTriangleIcon,
+  PhotoIcon
 } from '@heroicons/react/24/outline'
 
 export default function BannerManagement() {

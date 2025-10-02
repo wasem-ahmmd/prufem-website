@@ -4,9 +4,7 @@ const nextConfig = {
     domains: ['res.cloudinary.com'],
     formats: ['image/webp', 'image/avif'],
   },
-  experimental: {
-    optimizeCss: true,
-  },
+  // Disable experimental optimizeCss to avoid critters-related build errors
 }
 
 module.exports = nextConfig

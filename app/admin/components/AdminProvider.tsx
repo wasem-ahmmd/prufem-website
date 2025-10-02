@@ -126,7 +126,6 @@ export default function AdminProvider({ children }: { children: React.ReactNode 
 
   const logout = () => {
     setUser(null)
-    setIsAuthenticated(false)
     localStorage.removeItem('admin_user')
     
     // Clear authentication cookie
