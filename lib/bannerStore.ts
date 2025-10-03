@@ -28,8 +28,9 @@ async function writeFileFallback(data: BannerPayload): Promise<void> {
 }
 
 export async function getBanner(): Promise<BannerPayload | null> {
-  const url = process.env.UPSTASH_REDIS_REST_URL
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN
+  const isProd = process.env.NODE_ENV === 'production'
+  const url = process.env.UPSTASH_REDIS_REST_URL || (isProd ? 'https://leading-dane-5510.upstash.io' : undefined)
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN || (isProd ? 'ARWGAAImcDI4NGFhYzg3YWYyYTQ0ZmUzYWM0M2NhYmI5ZDhjYjdjNXAyNTUxMA' : undefined)
   try {
     if (url && token) {
       const { Redis } = await import('@upstash/redis')
@@ -44,8 +45,9 @@ export async function getBanner(): Promise<BannerPayload | null> {
 }
 
 export async function setBanner(payload: BannerPayload): Promise<void> {
-  const url = process.env.UPSTASH_REDIS_REST_URL
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN
+  const isProd = process.env.NODE_ENV === 'production'
+  const url = process.env.UPSTASH_REDIS_REST_URL || (isProd ? 'https://leading-dane-5510.upstash.io' : undefined)
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN || (isProd ? 'ARWGAAImcDI4NGFhYzg3YWYyYTQ0ZmUzYWM0M2NhYmI5ZDhjYjdjNXAyNTUxMA' : undefined)
   try {
     if (url && token) {
       const { Redis } = await import('@upstash/redis')
