@@ -2,27 +2,37 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useAdminBanner } from '@/lib/adminBannerSync'
+import { useEffect, useState } from 'react'
 
 const Hero = () => {
   const { activeBanner, isLoading } = useAdminBanner()
   
   // Use admin banner image if available, otherwise use default
-  const heroImage = activeBanner?.image || "/images/hero-perfume-bg.jpg"
+  const defaultImage = "/images/hero-perfume-bg.jpg"
   const heroTitle = activeBanner?.title || "Exquisite Fragrances"
+
+  // Runtime image fallback for mobile/external URLs
+  const [heroImageSrc, setHeroImageSrc] = useState<string>(activeBanner?.image || defaultImage)
+
+  useEffect(() => {
+    setHeroImageSrc(activeBanner?.image || defaultImage)
+  }, [activeBanner?.image])
   
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-gradient-black overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src={heroImage}
+          src={heroImageSrc}
           alt="Luxury perfume bottles"
           fill
           className="object-cover opacity-100"
           priority
           sizes="100vw"
+          unoptimized={!!activeBanner?.image && activeBanner.image.startsWith('http')}
+          onError={() => setHeroImageSrc(defaultImage)}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-brand-black/50 to-brand-black/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-brand-black/40 to-brand-black/70 sm:from-brand-black/50 sm:to-brand-black/80" />
       </div>
 
       {/* Content */}
