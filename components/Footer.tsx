@@ -2,8 +2,10 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { useAdminBanner } from '@/lib/adminBannerSync'
 
 const Footer = () => {
+   const { activeBanner } = useAdminBanner()
   const [email, setEmail] = useState('')
   const [isSubscribed, setIsSubscribed] = useState(false)
 
@@ -37,13 +39,13 @@ const Footer = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
                   required
-                  className="flex-1 px-3 sm:px-4 py-2 sm:py-3 bg-brand-black border border-brand-gray/40 text-brand-white placeholder-brand-gray focus:outline-none focus:border-brand-emerald focus:ring-1 focus:ring-brand-emerald text-sm sm:text-base"
+                  className="flex-1 px-3 sm:px-4 py-2 sm:py-3 bg-brand-black border border-brand-gray/40 text-brand-white placeholder-brand-gray focus:outline-none  focus:ring-1  text-sm sm:text-base"
                   aria-label="Email address for newsletter"
                 />
                 <button
                   type="submit"
                   disabled={isSubscribed}
-                  className="bg-gradient-emerald text-brand-black px-4 sm:px-6 py-2 sm:py-3 font-semibold btn-emerald-hover transition-all disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-brand-emerald focus:ring-offset-2 focus:ring-offset-brand-black text-sm sm:text-base whitespace-nowrap"
+                  className="bg-gradient-emerald text-brand-black px-4 sm:px-6 py-2 sm:py-3 font-semibold   transition-all disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-brand-emerald focus:ring-offset-2 focus:ring-offset-brand-black text-sm sm:text-base whitespace-nowrap"
                 >
                   {isSubscribed ? 'Subscribed!' : 'Subscribe'}
                 </button>
@@ -83,7 +85,7 @@ const Footer = () => {
             <div className="flex space-x-3 sm:space-x-4">
               <a
                 href="https://instagram.com/prufem"
-                className="text-brand-gray hover-text-emerald transition-colors"
+                className={`text-brand-gray  transition-colors ${activeBanner ? 'admin-dynamic-text-hover' : 'border-brand-emerald'}`}
                 aria-label="Follow us on Instagram"
               >
                 <svg className="w-5 sm:w-6 h-5 sm:h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -92,7 +94,7 @@ const Footer = () => {
               </a>
               <a
                 href="https://facebook.com/prufem"
-                className="text-brand-gray hover-text-emerald transition-colors"
+                className={`text-brand-gray  transition-colors ${activeBanner ? 'admin-dynamic-text-hover' : 'border-brand-emerald'}`}
                 aria-label="Follow us on Facebook"
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -101,7 +103,7 @@ const Footer = () => {
               </a>
               <a
                 href="https://twitter.com/prufem"
-                className="text-brand-gray hover-text-emerald transition-colors"
+                className={`text-brand-gray  transition-colors ${activeBanner ? 'admin-dynamic-text-hover' : 'border-brand-emerald'}`}
                 aria-label="Follow us on Twitter"
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -116,22 +118,22 @@ const Footer = () => {
             <h4 className="text-gradient-silver font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Quick Links</h4>
             <ul className="space-y-1.5 sm:space-y-2">
               <li>
-                <Link href="/collections" className="text-brand-gray hover-text-emerald transition-colors text-sm sm:text-base">
+                <Link href="/collections" className={`text-brand-gray  transition-colors text-sm sm:text-base ${activeBanner ? 'admin-dynamic-text-hover' : 'hover-text-emerald'}`}>
                   Collections
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-brand-gray hover-text-emerald transition-colors text-sm sm:text-base">
+                <Link href="/about" className={`text-brand-gray  transition-colors text-sm sm:text-base ${activeBanner ? 'admin-dynamic-text-hover' : 'hover-text-emerald'}`}>
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-brand-gray hover-text-emerald transition-colors text-sm sm:text-base">
+                <Link href="/contact"className={`text-brand-gray  transition-colors text-sm sm:text-base ${activeBanner ? 'admin-dynamic-text-hover' : 'hover-text-emerald'}`}>
                   Contact
                 </Link>
               </li>
               <li>
-                <Link href="/stores" className="text-brand-gray hover-text-emerald transition-colors text-sm sm:text-base">
+                <Link href="/stores" className={`text-brand-gray  transition-colors text-sm sm:text-base ${activeBanner ? 'admin-dynamic-text-hover' : 'hover-text-emerald'}`}>
                   Store Locator
                 </Link>
               </li>
@@ -143,22 +145,22 @@ const Footer = () => {
             <h4 className="text-gradient-silver font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Customer Service</h4>
             <ul className="space-y-1.5 sm:space-y-2">
               <li>
-                <Link href="/shipping" className="text-brand-gray hover-text-emerald transition-colors text-sm sm:text-base">
+                <Link href="/shipping" className={`text-brand-gray  transition-colors text-sm sm:text-base ${activeBanner ? 'admin-dynamic-text-hover' : 'hover-text-emerald'}`}>
                   Shipping Info
                 </Link>
               </li>
               <li>
-                <Link href="/returns" className="text-brand-gray hover-text-emerald transition-colors text-sm sm:text-base">
+                <Link href="/returns" className={`text-brand-gray  transition-colors text-sm sm:text-base ${activeBanner ? 'admin-dynamic-text-hover' : 'hover-text-emerald'}`}>
                   Returns & Exchanges
                 </Link>
               </li>
               <li>
-                <Link href="/size-guide" className="text-brand-gray hover-text-emerald transition-colors text-sm sm:text-base">
+                <Link href="/size-guide" className={`text-brand-gray  transition-colors text-sm sm:text-base ${activeBanner ? 'admin-dynamic-text-hover' : 'hover-text-emerald'}`}>
                   Size Guide
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="text-brand-gray hover-text-emerald transition-colors text-sm sm:text-base">
+                <Link href="/faq" className={`text-brand-gray  transition-colors text-sm sm:text-base ${activeBanner ? 'admin-dynamic-text-hover' : 'hover-text-emerald'}`}>
                   FAQ
                 </Link>
               </li>
@@ -175,13 +177,13 @@ const Footer = () => {
               © 2024 Prufem. All rights reserved.
             </p>
             <div className="flex flex-wrap justify-center sm:justify-end space-x-4 sm:space-x-6">
-              <Link href="/privacy" className="text-brand-gray hover-text-emerald transition-colors text-xs sm:text-sm">
+              <Link href="/privacy" className={`text-brand-gray  transition-colors text-xs sm:text-sm ${activeBanner ? 'admin-dynamic-text-hover' : 'hover-text-emerald'}`}>
                 Privacy Policy
               </Link>
-              <Link href="/terms" className="text-brand-gray hover-text-emerald transition-colors text-xs sm:text-sm">
+              <Link href="/terms" className={`text-brand-gray  transition-colors text-xs sm:text-sm ${activeBanner ? 'admin-dynamic-text-hover' : 'hover-text-emerald'}`}>
                 Terms of Service
               </Link>
-              <Link href="/cookies" className="text-brand-gray hover-text-emerald transition-colors text-xs sm:text-sm">
+              <Link href="/cookies" className={`text-brand-gray  transition-colors text-xs sm:text-sm ${activeBanner ? 'admin-dynamic-text-hover' : 'hover-text-emerald'}`}>
                 Cookie Policy
               </Link>
             </div>

@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
+import BestSellers from '@/components/BestSellers'
 import FeaturedGrid from '@/components/FeaturedGrid'
 import Testimonials from '@/components/Testimonials'
 import Footer from '@/components/Footer'
@@ -77,6 +78,7 @@ export default function HomePage() {
       <Navbar />
       <main>
         <Hero />
+        <BestSellers />
         <FeaturedGrid />
         <Testimonials />
       </main>

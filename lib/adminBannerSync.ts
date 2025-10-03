@@ -28,12 +28,13 @@ export function getActiveBanner(): AdminBannerData | null {
 export async function fetchActiveBanner(): Promise<AdminBannerData | null> {
   if (typeof window === 'undefined') return null
   try {
-    const res = await fetch('/api/banner', { cache: 'no-store' })
+    const url = `${window.location.origin}/api/banner`
+    const res = await fetch(url, { cache: 'no-store' })
     if (!res.ok) return null
     const data = await res.json()
     return data as AdminBannerData
   } catch (err) {
-    console.error('Failed to fetch active banner from API:', err)
+    console.warn('Banner API fetch failed, falling back to local storage:', err)
     return null
   }
 }
@@ -108,6 +109,7 @@ function updateTailwindClasses(color: string) {
   .admin-dynamic-border {
       border-color: ${color} !important;
   }
+  
 
   .admin-dynamic-border-hover:hover {
       border-color: ${color} !important;
