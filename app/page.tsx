@@ -2,8 +2,11 @@ import { Metadata } from 'next'
 import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
 import BestSellers from '@/components/BestSellers'
+import ShortBy from '@/components/ShortBy'
+import MostPopular from '@/components/MostPopular'
 import FeaturedGrid from '@/components/FeaturedGrid'
 import Testimonials from '@/components/Testimonials'
+
 import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
@@ -79,7 +82,9 @@ export default function HomePage() {
       <main>
         <Hero />
         <BestSellers />
-        <FeaturedGrid />
+        <ShortBy />
+        <MostPopular />
+        {/* <FeaturedGrid /> */}
         <Testimonials />
       </main>
       <Footer />

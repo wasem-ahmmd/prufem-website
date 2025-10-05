@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getBanner, setBanner } from '@/lib/bannerStore'
+import { deleteFromCloudinary, extractPublicIdFromUrl } from '@/utils/cloudinary'
 
 export async function GET() {
   const data = await getBanner()
@@ -18,16 +19,28 @@ export async function GET() {
 export async function PUT(request: Request) {
   try {
     const body = await request.json()
-    const payload = {
-      id: body.id || Date.now().toString(),
-      image: body.image || '',
-      color: body.color || '#50C878',
-      title: body.title || '',
-      isActive: body.isActive ?? true,
-      createdAt: new Date().toISOString(),
+  const payload = {
+    image: body.image || '',
+    color: body.color || '#50C878',
+    title: body.title || '',
+    isActive: body.isActive ?? true,
+  }
+  // Before setting new banner, delete previous Cloudinary image if present
+  try {
+    const current = await getBanner()
+    if (current && current.image && /^https?:\/\//.test(current.image)) {
+      const publicId = extractPublicIdFromUrl(current.image)
+      if (publicId) {
+        await deleteFromCloudinary(publicId)
+      }
     }
-    await setBanner(payload)
-    return NextResponse.json({ success: true, data: payload })
+  } catch (e) {
+    // Ignore deletion errors; continue updating banner
+    console.warn('Failed to delete previous Cloudinary image:', e)
+  }
+
+  await setBanner(payload)
+  return NextResponse.json({ success: true })
   } catch (err) {
     return NextResponse.json({ success: false, error: 'Invalid payload' }, { status: 400 })
   }

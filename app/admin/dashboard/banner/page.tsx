@@ -76,15 +76,34 @@ export default function BannerManagement() {
     setError(null)
 
     try {
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1500))
+      let finalImageUrl = activeBanner?.image || ''
 
-      // In a real app, you would upload the file to your server/cloud storage
-      // For now, we'll use the preview URL or existing image
-      const imageUrl = previewUrl || activeBanner?.image || ''
+      // If a new file is selected, upload it to the admin upload endpoint
+      if (selectedFile) {
+        const formData = new FormData()
+        formData.append('file', selectedFile)
+
+        const resp = await fetch('/api/admin/banner', {
+          method: 'POST',
+          body: formData,
+          // Rely on the admin_token cookie set by AdminProvider; no need for headers
+        })
+
+        if (!resp.ok) {
+          const msg = await resp.text()
+          throw new Error(msg || 'Upload failed')
+        }
+
+        const data = await resp.json()
+        finalImageUrl = data.secure_url || ''
+      }
+
+      if (!finalImageUrl) {
+        throw new Error('No image URL available after upload')
+      }
 
       updateBanner({
-        image: imageUrl,
+        image: finalImageUrl,
         color: selectedColor,
         title: bannerTitle.trim(),
         isActive: true
@@ -93,13 +112,8 @@ export default function BannerManagement() {
       setShowSuccess(true)
       setTimeout(() => setShowSuccess(false), 3000)
 
-      // Clean up preview URL if we created one
-      if (previewUrl && selectedFile) {
-        // In production, keep the URL until the image is properly uploaded
-        // URL.revokeObjectURL(previewUrl)
-      }
-
     } catch (err) {
+      console.error(err)
       setError('Failed to save banner. Please try again.')
     } finally {
       setIsLoading(false)

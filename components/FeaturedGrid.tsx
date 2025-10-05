@@ -1,6 +1,7 @@
 'use client'
 import ProductCard from './ProductCard'
 import { useAdminBanner } from '@/lib/adminBannerSync'
+import ShortBy from './ShortBy'
 
 // Sample product data - replace with actual data from your API/CMS
 const featuredProducts = [
@@ -8,7 +9,7 @@ const featuredProducts = [
     id: '1',
     name: 'Noir Elegance',
     price: 189.99,
-    image: '/images/perfume-1.png',
+    image: '/images/perfume-1.jpg',
     description: 'A sophisticated blend of bergamot, jasmine, and sandalwood that captures the essence of luxury.',
   },
   {
@@ -66,7 +67,7 @@ const FeaturedGrid = () => {
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-8 sm:mb-12">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 mb-8 sm:mb-12">
           {featuredProducts.map((product) => (
             <ProductCard 
               key={product.id} 
@@ -95,30 +96,7 @@ const FeaturedGrid = () => {
           </a>
         </div>
 
-        {/* Categories Strip */}
-        <div className="mt-16 pt-16 border-t border-brand-gray/20">
-          <h3 className="text-2xl font-serif text-gradient-silver text-center mb-8">
-            Shop by Category
-          </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { name: 'For Him', href: '/collections/men' },
-              { name: 'For Her', href: '/collections/women' },
-              { name: 'Unisex', href: '/collections/unisex' },
-              { name: 'Limited Edition', href: '/collections/limited' },
-            ].map((category) => (
-              <a
-                key={category.name}
-                href={category.href}
-                className={`group p-6 text-center border border-brand-gray/20 ${activeBanner ? 'admin-dynamic-border-hover' : 'hover:border-brand-emerald/50'} product-card-hover transition-all duration-300`}
-              >
-                <span className={`${activeBanner ? 'text-brand-white hover:admin-dynamic-text' : 'text-brand-white hover-text-emerald'} transition-colors font-semibold`}>
-                  {category.name}
-                </span>
-              </a>
-            ))}
-          </div>
-        </div>
+        {/* <ShortBy /> */}
       </div>
     </section>
   )

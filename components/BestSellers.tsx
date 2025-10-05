@@ -1,5 +1,6 @@
 "use client"
 
+import Image from 'next/image'
 import ProductCard from '@/components/ProductCard'
 import { useRef } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
@@ -59,14 +60,14 @@ const BEST_SELLERS: Product[] = [
     id: 'perfume-7',
     name: 'Amber Muse',
     price: 169.0,
-    image: '/images/perfume-6.jpg',
+    image: '/images/perfume-7.jpg',
     description: 'Rich amber wrapped in soft musk and vanilla.'
   },
   {
     id: 'perfume-8',
     name: 'Amber Muse',
     price: 169.0,
-    image: '/images/perfume-6.jpg',
+    image: '/images/perfume-1.jpg',
     description: 'Rich amber wrapped in soft musk and vanilla.'
   },
 ]
@@ -82,12 +83,12 @@ export default function BestSellers() {
   }
 
   return (
-    <section className="relative py-10 sm:py-12 md:py-16 bg-gradient-black group">
+    <section className="relative py-10 sm:py-12 md:py-16 bg-gradient-rose-gold group">
       <div className="px-0 sm:px-0 lg:px-0">
         {/* Heading */}
         <div className="mb-6 sm:mb-8 text-center">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif text-brand-white">Best Sellers</h2>
-          <p className="text-brand-gray text-sm sm:text-base mt-2 max-w-2xl mx-auto">Our most-loved fragrances, curated for you.</p>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif text-brand-black">Best Sellers</h2>
+          <p className="text-brand-black text-sm sm:text-base mt-2 max-w-2xl mx-auto">Our most-loved fragrances, curated for you.</p>
         </div>
 
         {/* Horizontal scroll list showing all products */}

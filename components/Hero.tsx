@@ -18,6 +18,10 @@ const Hero = () => {
     setHeroImageSrc(activeBanner?.image || defaultImage)
   }, [activeBanner?.image])
   
+  // Hover overlay control for "View Collection" button
+  const [viewOverlayPos, setViewOverlayPos] = useState<'left' | 'center' | 'right'>('left')
+  const [overlayTransition, setOverlayTransition] = useState(true)
+  
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-gradient-black overflow-hidden">
       {/* Background Image */}
@@ -51,23 +55,40 @@ const Hero = () => {
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center animate-slide-up px-4 sm:px-0">
           <Link
             href="/products"
-            className={`w-full sm:w-auto ${activeBanner ? 'admin-dynamic-bg admin-dynamic-hover' : 'bg-gradient-emerald btn-emerald-hover'} text-brand-button-text px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-emerald focus:ring-offset-2 focus:ring-offset-brand-black text-center border-2 border-transparent`}
+            className={`relative group w-full sm:w-auto border-2 border-brand-emerald px-6 sm:px-8 py-3 sm:py-2.5 text-base sm:text-lg font-semibold transition-transform duration-300 hover:scale-105 focus:outline-none  text-center overflow-hidden`}
             aria-label="Shop our perfume collection"
           >
-            Shop Now
+            <span className="relative z-10 text-brand-black  group-hover:text-white">Shop Now</span>
+            <span className={`absolute inset-0 w-full transition-transform duration-300 group-hover:translate-x-full ${activeBanner ? 'admin-dynamic-bg' : 'bg-gradient-emerald'}`} />
           </Link>
-          
+
           <Link
             href="/collections"
-            className={`w-full sm:w-auto border-2 ${activeBanner ? 'admin-dynamic-border  admin-dynamic-hover' : 'border-brand-emerald text-brand-emerald hover:bg-brand-emerald'} hover:text-brand-button-text px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-brand-emerald focus:ring-offset-2 focus:ring-offset-brand-black text-center`}
+            onMouseEnter={() => {
+              // Pre-position to left without animation, then animate to center
+              setOverlayTransition(false)
+              setViewOverlayPos('left')
+              // Use double rAF to ensure transition is applied before target transform
+              requestAnimationFrame(() => {
+                setOverlayTransition(true)
+                requestAnimationFrame(() => {
+                  setViewOverlayPos('center')
+                })
+              })
+            }}
+            onMouseLeave={() => { setOverlayTransition(true); setViewOverlayPos('left') }}
+            className={`relative group w-full sm:w-auto border-2 border-brand-emerald text-brand-emerald px-6 sm:px-8 py-3 sm:py-2.5 text-base sm:text-lg font-semibold transition-transform duration-300 hover:scale-105 focus:outline-none   text-center overflow-hidden`}
             aria-label="View all perfume collections"
           >
-            View Collection
+            <span className="relative z-10 group-hover:text-brand-black">View Collection</span>
+            <span
+              className={`absolute inset-0 ${overlayTransition ? 'transition-transform' : 'transition-none'} duration-300 ${activeBanner ? 'admin-dynamic-bg' : 'bg-gradient-emerald'} ${viewOverlayPos === 'left' ? '-translate-x-full' : viewOverlayPos === 'center' ? 'translate-x-0' : 'translate-x-full'}`}
+            />
           </Link>
         </div>
 
         {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 animate-bounce">
           <svg className={`w-6 h-6 ${activeBanner ? 'admin-dynamic-text' : 'text-gradient-emerald'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>

@@ -1,62 +1,58 @@
-import { promises as fs } from 'fs'
-import path from 'path'
+import { supabaseServer } from '@/lib/supabaseClient'
 
 export interface BannerPayload {
-  id: string
+  id?: string
   image: string
   color: string
   title: string
   isActive: boolean
-  createdAt: string
-}
-
-const DATA_PATH = path.join(process.cwd(), 'data', 'admin-banner.json')
-const REDIS_KEY = 'admin_banner'
-
-async function readFileFallback(): Promise<BannerPayload | null> {
-  try {
-    const json = await fs.readFile(DATA_PATH, 'utf-8')
-    return JSON.parse(json)
-  } catch {
-    return null
-  }
-}
-
-async function writeFileFallback(data: BannerPayload): Promise<void> {
-  await fs.mkdir(path.dirname(DATA_PATH), { recursive: true })
-  await fs.writeFile(DATA_PATH, JSON.stringify(data, null, 2), 'utf-8')
+  createdAt?: string
 }
 
 export async function getBanner(): Promise<BannerPayload | null> {
-  const isProd = process.env.NODE_ENV === 'production'
-  const url = process.env.UPSTASH_REDIS_REST_URL || (isProd ? 'https://leading-dane-5510.upstash.io' : undefined)
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN || (isProd ? 'ARWGAAImcDI4NGFhYzg3YWYyYTQ0ZmUzYWM0M2NhYmI5ZDhjYjdjNXAyNTUxMA' : undefined)
-  try {
-    if (url && token) {
-      const { Redis } = await import('@upstash/redis')
-      const redis = new Redis({ url, token })
-      const data = await redis.get<BannerPayload>(REDIS_KEY)
-      if (data) return data
+  // Prefer Supabase Postgres for banner storage
+  if (supabaseServer) {
+    try {
+      const { data, error } = await supabaseServer
+        .from('admin_banners')
+        .select('id,image,color,title,isActive,createdAt')
+        .eq('isActive', true)
+        .order('createdAt', { ascending: false })
+        .limit(1)
+        .maybeSingle()
+
+      if (error) throw error
+      if (data) return data as BannerPayload
+    } catch (err) {
+      console.error('Supabase get error:', err)
     }
-  } catch (err) {
-    console.error('Redis get error:', err)
   }
-  return await readFileFallback()
+  // No local file fallback; return null when not available
+  return null
 }
 
 export async function setBanner(payload: BannerPayload): Promise<void> {
-  const isProd = process.env.NODE_ENV === 'production'
-  const url = process.env.UPSTASH_REDIS_REST_URL || (isProd ? 'https://leading-dane-5510.upstash.io' : undefined)
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN || (isProd ? 'ARWGAAImcDI4NGFhYzg3YWYyYTQ0ZmUzYWM0M2NhYmI5ZDhjYjdjNXAyNTUxMA' : undefined)
-  try {
-    if (url && token) {
-      const { Redis } = await import('@upstash/redis')
-      const redis = new Redis({ url, token })
-      await redis.set(REDIS_KEY, payload)
+  // Prefer Supabase Postgres upsert
+  if (supabaseServer) {
+    try {
+      // Keep storage minimal: delete all previous banners before inserting the new one
+      await supabaseServer.from('admin_banners').delete().neq('id', '00000000-0000-0000-0000-000000000000')
+
+      // Insert new active banner; let DB generate id and createdAt
+      const row = {
+        image: payload.image,
+        color: payload.color,
+        title: payload.title,
+        isActive: true,
+      }
+      const { error } = await supabaseServer.from('admin_banners').insert(row)
+      if (error) throw error
       return
+    } catch (err) {
+      console.error('Supabase set error:', err)
+      throw err
     }
-  } catch (err) {
-    console.error('Redis set error:', err)
   }
-  await writeFileFallback(payload)
+  // No local file fallback in localhost; surface error by throwing
+  throw new Error('Supabase not configured; cannot persist banner')
 }
