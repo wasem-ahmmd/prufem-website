@@ -4,8 +4,9 @@ import path from 'path'
 import { promises as fs } from 'fs'
 import { uploadToCloudinary } from '@/utils/cloudinary'
 
-// Storage: public/upload/banner (temporary)
-const uploadsDir = path.join(process.cwd(), 'public', 'upload', 'banner')
+// Storage: use /tmp on Vercel (serverless), otherwise public/upload/banner locally
+const baseUploadDir = process.env.VERCEL ? '/tmp' : path.join(process.cwd(), 'public')
+const uploadsDir = path.join(baseUploadDir, 'upload', 'banner')
 
 const storage = multer.diskStorage({
   destination: async (_req, _file, cb) => {
