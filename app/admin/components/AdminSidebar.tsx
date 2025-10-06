@@ -32,6 +32,8 @@ export default function AdminSidebar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const pathname = usePathname()
   const { user, logout } = useAdmin()
+  const displayName = user?.email || 'Admin'
+  const initial = (user?.email ? (user.email.split('@')[0]?.charAt(0) || user.email.charAt(0)) : 'A').toUpperCase()
 
   const productsChildren = [
     { name: 'All Products', href: '/admin/products', icon: RectangleGroupIcon },
@@ -85,12 +87,12 @@ export default function AdminSidebar() {
               <div className="flex-shrink-0">
                 <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
                   <span className="text-blue-600 font-medium text-sm">
-                    {user?.name?.charAt(0) || 'A'}
+                    {initial}
                   </span>
                 </div>
               </div>
               <div className="ml-3">
-                <p className="text-sm font-medium text-gray-900">{user?.name}</p>
+                <p className="text-sm font-medium text-gray-900">{displayName}</p>
                 <p className="text-xs text-gray-500">{user?.role}</p>
               </div>
             </div>
