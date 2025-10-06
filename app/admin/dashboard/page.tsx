@@ -51,16 +51,14 @@ export default function AdminDashboard() {
       return
     }
 
-    // Mock data loading - replace with real API calls
+    // Mock non-critical stats; real counts are loaded separately
     setTimeout(() => {
-      setStats({
-        totalProducts: 156,
-        totalCategories: 8,
-        totalOrders: 1247,
+      setStats((prev) => ({
+        ...prev,
         totalCustomers: 892,
         revenue: 125430,
-        conversionRate: 3.2
-      })
+        conversionRate: 3.2,
+      }))
 
       setBestsellers([
         {
@@ -89,6 +87,66 @@ export default function AdminDashboard() {
       setIsLoading(false)
     }, 1000)
   }, [isAuthenticated, router])
+
+  // Load real Total Products count from API
+  useEffect(() => {
+    if (!isAuthenticated) return
+    let cancelled = false
+    async function loadCount() {
+      try {
+        const res = await fetch('/api/admin/products?count=true')
+        const json = await res.json()
+        if (!cancelled && res.ok) {
+          const count = typeof json.count === 'number' ? json.count : 0
+          setStats((prev) => ({ ...prev, totalProducts: count }))
+        }
+      } catch {
+        // silently ignore
+      }
+    }
+    loadCount()
+    return () => { cancelled = true }
+  }, [isAuthenticated])
+
+  // Load real Total Categories count from API
+  useEffect(() => {
+    if (!isAuthenticated) return
+    let cancelled = false
+    async function loadCount() {
+      try {
+        const res = await fetch('/api/admin/categories?count=true')
+        const json = await res.json()
+        if (!cancelled && res.ok) {
+          const count = typeof json.count === 'number' ? json.count : 0
+          setStats((prev) => ({ ...prev, totalCategories: count }))
+        }
+      } catch {
+        // silently ignore
+      }
+    }
+    loadCount()
+    return () => { cancelled = true }
+  }, [isAuthenticated])
+
+  // Load real Total Orders count from API
+  useEffect(() => {
+    if (!isAuthenticated) return
+    let cancelled = false
+    async function loadCount() {
+      try {
+        const res = await fetch('/api/admin/orders?count=true')
+        const json = await res.json()
+        if (!cancelled && res.ok) {
+          const count = typeof json.count === 'number' ? json.count : 0
+          setStats((prev) => ({ ...prev, totalOrders: count }))
+        }
+      } catch {
+        // silently ignore
+      }
+    }
+    loadCount()
+    return () => { cancelled = true }
+  }, [isAuthenticated])
 
   if (!isAuthenticated) {
     return null
@@ -184,7 +242,7 @@ export default function AdminDashboard() {
               </div>
 
               {/* Revenue and Conversion */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="admin-card">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">Revenue Overview</h3>
                   <div className="flex items-center justify-between">
@@ -212,10 +270,10 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               {/* Bestseller Products */}
-              <div className="admin-card">
+              {/* <div className="admin-card">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-lg font-semibold text-gray-900">Bestseller Products</h3>
                   <button className="text-blue-600 hover:text-blue-700 text-sm font-medium">
@@ -243,10 +301,10 @@ export default function AdminDashboard() {
                     </div>
                   ))}
                 </div>
-              </div>
+              </div> */}
 
               {/* Quick Actions */}
-              <div className="admin-card">
+              {/* <div className="admin-card">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <button
@@ -276,7 +334,7 @@ export default function AdminDashboard() {
                     <p className="text-sm text-gray-600">View your live website</p>
                   </button>
                 </div>
-              </div>
+              </div> */}
             </div>
           )}
         </main>

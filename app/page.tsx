@@ -1,5 +1,4 @@
 import { Metadata } from 'next'
-import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
 import BestSellers from '@/components/BestSellers'
 import ShortBy from '@/components/ShortBy'
@@ -78,7 +77,6 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       
-      <Navbar />
       <main>
         <Hero />
         <BestSellers />

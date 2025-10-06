@@ -42,6 +42,9 @@ const Navbar = () => {
             <Link href="/contact" className={`text-brand-white ${activeBanner ? 'admin-dynamic-text-hover' : 'hover-text-emerald' }  transition-colors`}>
               Contact
             </Link>
+            <Link href="/admin/jobs" className={`text-brand-white ${activeBanner ? 'admin-dynamic-text-hover' : 'hover-text-emerald' }  transition-colors`}>
+              Admin Jobs
+            </Link>
             <button 
               className="text-brand-white hover-text-emerald transition-colors"
               aria-label="Search products"
@@ -96,6 +99,13 @@ const Navbar = () => {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Contact
+              </Link>
+              <Link 
+                href="/admin/jobs" 
+                className="text-brand-white hover-text-emerald transition-colors text-sm sm:text-base py-1"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Admin Jobs
               </Link>
               <div className="flex items-center space-x-4 pt-2 border-t border-brand-gray/20 mt-3">
                 <button 

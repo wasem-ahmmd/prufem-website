@@ -11,21 +11,34 @@ import {
   CogIcon,
   ArrowRightOnRectangleIcon,
   Bars3Icon,
-  XMarkIcon
+  XMarkIcon,
+  TagIcon,
+  RectangleGroupIcon,
+  ChevronDownIcon,
+  QueueListIcon,
 } from '@heroicons/react/24/outline'
 
 const navigation = [
   { name: 'Dashboard', href: '/admin/dashboard', icon: HomeIcon },
   { name: 'Banner & Colors', href: '/admin/dashboard/banner', icon: PhotoIcon },
+  { name: 'Categories', href: '/admin/categories', icon: TagIcon },
+  { name: 'Collections', href: '/admin/collections', icon: RectangleGroupIcon },
   { name: 'Analytics', href: '/admin/dashboard/analytics', icon: ChartBarIcon },
   { name: 'Settings', href: '/admin/dashboard/settings', icon: CogIcon },
-  { name: 'New Product', href: '/admin/products/new', icon: PhotoIcon },
+  { name: 'Jobs', href: '/admin/jobs', icon: QueueListIcon },
 ]
 
 export default function AdminSidebar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const pathname = usePathname()
   const { user, logout } = useAdmin()
+
+  const productsChildren = [
+    { name: 'All Products', href: '/admin/products', icon: RectangleGroupIcon },
+    { name: 'Add Product', href: '/admin/products/add', icon: PhotoIcon },
+  ]
+  const isProductsActive = productsChildren.some((item) => pathname === item.href)
+  const [isProductsOpen, setIsProductsOpen] = useState<boolean>(isProductsActive)
 
   const handleLogout = () => {
     logout()
@@ -85,6 +98,38 @@ export default function AdminSidebar() {
 
           {/* Navigation */}
           <nav className="flex-1 px-2 py-4 space-y-1">
+            {/* Products dropdown */}
+            <button
+              type="button"
+              className={`admin-nav-item w-full justify-between ${isProductsActive ? 'active' : ''}`}
+              onClick={() => setIsProductsOpen((v) => !v)}
+            >
+              <span className="flex items-center">
+                <RectangleGroupIcon className="mr-3 h-5 w-5 flex-shrink-0" />
+                Products
+              </span>
+              <ChevronDownIcon className={`h-5 w-5 transition-transform ${isProductsOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            {isProductsOpen && (
+              <div className="mt-1 space-y-1">
+                {productsChildren.map((item) => {
+                  const isActive = pathname === item.href
+                  return (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className={`admin-nav-item pl-9 ${isActive ? 'active' : ''}`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <item.icon className="mr-3 h-4 w-4 flex-shrink-0" />
+                      {item.name}
+                    </Link>
+                  )
+                })}
+              </div>
+            )}
+
             {navigation.map((item) => {
               const isActive = pathname === item.href
               return (
@@ -99,6 +144,7 @@ export default function AdminSidebar() {
                 </Link>
               )
             })}
+            
           </nav>
 
           {/* Logout */}
