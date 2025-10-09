@@ -7,6 +7,7 @@ import FeaturedGrid from '@/components/FeaturedGrid'
 import Testimonials from '@/components/Testimonials'
 
 import Footer from '@/components/Footer'
+import Navbar from '@/components/Navbar'
 
 export const metadata: Metadata = {
   title: 'Prufem - Premium Luxury Perfumes',
@@ -76,7 +77,7 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      
+      <Navbar />
       <main>
         <Hero />
         <BestSellers />
